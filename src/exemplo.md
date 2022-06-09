@@ -6,7 +6,7 @@ Para compreendermos o algoritmo Bucket Sort, vamos primeiro pensar em um exemplo
 Ele deve ter 52 cartas divididas em 4 naipes: copas, espadas, ouros e paus (se você não souber o que é cada naipe, veja aqui). Agora imagine que pediram para que você o ordenasse.
 
 !!! OBSERVAÇÃO
-Pense que existem dois critérios em que ele pode ser ordenado. Qual deles é mais facil?
+Imagine que o critério utilizado é priorizar a ordem dos **números** acima dos naipes. Dessa forma seria muito complicado, pois é confuso a questão da ordenação dos naipes, já que eles não possuem uma ordem muito definida.
 !!!
 
 ??? Checkpoint
@@ -15,13 +15,11 @@ Tendo em vista os pontos levantados, qual estratégia voce utilizaria para orden
 
 ::: Gabarito
 
-Imagine então que o critério utilizado é priorizar a ordem dos números. Dessa forma seria muito complicado, pois seria confuso a questão da ordenação dos naipes, já que eles não possuem uma ordem muito definida.
+Uma metodologia comum seria, primeiramente, agrupar cartas olhando apenas para seu naipe. De acordo com o seu símbolo, as cartas vão ser inseridas em grupos de cartas com o mesmo naipe.
 
-Sendo assim, uma metodologia comum seria, primeiramente, agrupar cartas olhando apenas para seu naipe. De acordo com seu o valor lido, as cartas vão ser inseridas em grupos de cartas com o mesmo naipe, ou "buckets".
+Então, para cada um dos conjuntos de um mesmo naipe, poderíamos ordenar as cartas em ordem crescente, sem se preocupar com os naipes, pois seriam todos do mesmo. 
 
-Então, para cada um dos "buckets", poderíamos ordenar as cartas em ordem crescente, sem se preocupar com os naipes. 
-
-Por fim, quando todos os buckets estiverem em ordem crescente, podemos juntá-los conforme conforme solicitado, na ordem espadas, ouros, copas e paus e o baralho estará ordenado. 
+Por fim, quando todos os conjuntos de cartas do mesmo naipe estiverem em ordem crescente, podemos juntá-los conforme conforme solicitado. 
 
 ![](baralho.png)
 
@@ -29,8 +27,32 @@ Por fim, quando todos os buckets estiverem em ordem crescente, podemos juntá-lo
 
 ???
 
+A ideia do algoritmo
+---------
+De forma semelhante ao exemplo acima, o Bucket Sort é um algoritmo de ordenação que se baseia na ideia de buckets, isso é, ele agrupa os elementos 
+por um intervalo numérico, e dentro desse intervalo, ele ordena os algarismos. 
+
+Ele é um algoritmo relativamente simples, mas existem algumas etapas que exigem um pouco mais de reflexão por não serem tão triviais:
+
+??? Atividade 1
+
+Vamos começar a entender melhor o Bucket Sort entendendo como calcular os **intervalos** dos buckets:
+
+Supondo que serão criados 3 buckets, dado o vetor $v = [8,2,7,3,5,4,6,9]$, como fazer para calcular os intervalos para alocar corretamente cada um dos valores?
+
+!!! DICA
+O que aconteceria se fossem outros valores no vetor, ou se fossem criados mais buckets? Mudaria os intervalos? 
+!!!
+
+::: Gabarito
+
+Vamos começar encontrando o intervalo total do vetor, isso é, encontrar o **maior** e **menor** valor e calcular a diferença de ambos. Em seguida, dividiremos pelo número de buckets para dividir igualmente os intervalos. Por último, vamos arredondar para cima esse valor.
+
+:::
 
 
+
+???
 
 
 Construindo o código
@@ -287,12 +309,12 @@ O pior caso de ordenação seria justamente quando todos os elementos acabam no 
 
 ??? Atividade
 
-Vamos supor que estamos utilizando o Insertion Sort para ordenar os buckets. Sabendo que a complexidade dele é $O((n)^2)$, qual vai ser a complexidade no pior caso do Bucket Sort?
+Vamos supor que estamos utilizando o Insertion Sort para ordenar os buckets. Sabendo que a complexidade dele é $O(n^2)$, qual vai ser a complexidade no pior caso do Bucket Sort?
 
 
 ::: Gabarito
 
-No **pior caso**, se todos os elementos caírem no mesmo bucket, a **complexidade** será **igual à** própria **complexidade do algoritmo de ordenação**, portanto será $O((n)^2)$.
+No **pior caso**, se todos os elementos caírem no mesmo bucket, a **complexidade** será **igual à** própria **complexidade do algoritmo de ordenação**, portanto será $O(n^2)$.
 
 :::
 
@@ -325,7 +347,6 @@ Como isso será feito para os $k$ buckets, a complexidade total dessa fase será
 
 ???
 
-yg
 
 
 ??? Atividade
@@ -340,7 +361,7 @@ O Bucket Sort melhor performa, em termos de tempo, em vetores grandes, quanto ma
 
 ???
 
-Isso significa que, se o seu $k$ não foi muito pequeno, você consegue fazer com que a complexidade fique melhor do que $O(n^2)$. Em particular, se $k$ for proporcional a $n^2$, a complexidade se tornará linear.
+Isso significa que, se o seu $k$ não foi muito pequeno, você consegue fazer com que a complexidade fique melhor do que $O(n^2)$. Em particular, se $k$ for proporcional a $n$, a complexidade se tornará linear.
 
 Desse modo, muitas vezes, o Bucket Sort é utilizado como algoritmo de ordenação externo, especialmente se você precisa ordenar um **vetor que é tão grande que não cabe na sua memória**.
 
