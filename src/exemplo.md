@@ -59,7 +59,7 @@ Construindo o código
 ---------
 Tendo em vista como o Bucket Sort opera, vamos agora compreender o modo como ele é implementado. Como esse algoritmo se apropria bastante da utilização de vetores, faremos a implementação em Python, para facilitar a compreensão do código.
 
-Primeiramente, veja o pseudocódigo a seguir e pense se faz sentido de acordo com a explicação anterior do funcionamento do Bucket Sort. Além disso, considerer que será utilizado o Insertion Sort para ordenar cada bucket individualmente.
+Primeiramente, veja o pseudocódigo a seguir e pense se faz sentido de acordo com a explicação anterior do funcionamento do Bucket Sort. 
 
 ``` py
 bucketSort(arr, n_buckets)
@@ -72,16 +72,17 @@ bucketSort(arr, n_buckets)
     
     Insira os elementos em seus respectivos buckets.
 
-    Ordenar cada bucket individualmente utilizando Insertion Sort.
+    Ordenar cada bucket individualmente utilizando um algoritmo de ordenação.
 
     Juntar todos os buckets ordenados em um único vetor.
 ```
 
 
+Vamos por partes! Para conseguirmos dividir o nosso vetor em buckets, precisamos saber quais são os seus limites, concorda? E é justamente essa a primeira operação realizada pelo pseudocódigo.
 
 ??? Atividade
 
-Vamos começar pelo primeiro trecho do pseudocódigo. Tente implementar em **Python** a seguinte lógica:
+Veja o trecho em questão e tente implementá-lo em **Python**.
 
 ``` py
 bucketSort(arr, n_buckets)
@@ -100,9 +101,11 @@ def bucketSort(arr, n_buckets):
 
 ???
 
+Após descobrirmos o máximo e mínimo da array, podemos segmentar esse intervalo nos referidos buckets. Lembre-se que o número de buckets será passado como argumento da função.
+
 ??? Atividade
 
-Agora vamos para o segundo trecho. Tente implementar em **Python** e adicione ao código do item anterior a lógica abaixo:
+Tendo isso em vista, como você calcularia o tamanho do intervalo dos buckets considerando o pseudocódigo abaixo? Tente implementar em **Python** e adicione ao código do item anterior.
 
 ``` py
     Calcular o intervalo para cada bucket.	
@@ -117,12 +120,17 @@ def bucketSort(arr, n_buckets):
 
     rnge = ceil((max_ele - min_ele) / n_buckets)
 ```
+Perceberam que colocamos a função *ceil*? Ela serve para arredondarmos o valor para cima quando o resultado não é um inteiro.
+
 :::
 
-???
+Pronto, agora temos o tamanho do intervalo de cada bucket, mas os buckets em si ainda não foram criados. Esta será a próxima etapa do código.
+
 ??? Atividade
 
-Agora vamos para o terceiro trecho. Tente implementar em **Python** e adicione ao código do item anterior a lógica abaixo:
+Levando isso em consideração, tente implementar em **Python** e adicione ao código do item anterior a lógica abaixo:
+
+**Dica:** Lembre-se novamente que o número de buckets é passado como argumento da função *bucketSort*.
 
 ``` py
     Criar n Buckets vazios (ou listas) com o intervalo calculado.
@@ -145,9 +153,16 @@ def bucketSort(arr, n_buckets):
 :::
 
 ???
+
+Agora que temos os buckets criados e os seus respectivos intervalos, precisamos separar os elementos dentro de cada um deles. Pense que para isso precisamos realizar duas operações:
+
+    1) Ver em qual dos buckets cada elemento está localizado. 
+    
+    2) Colocá-lo em seu devido bucket.
+
 ??? Atividade
 
-Agora vamos para o quarto trecho. Tente implementar em **Python** e adicione ao código do item anterior a lógica abaixo:
+Com base nessas duas operações, tente implementar em **Python** e adicione ao código do item anterior a lógica abaixo:
 
 ``` py
     Insira os elementos em seus respectivos buckets.
@@ -167,11 +182,14 @@ def bucketSort(arr, n_buckets):
         temp.append([])
 
     for i in range(len(arr)):
+        #Verifica em qual dos buckets o elemento está localizado e guarda na variável diff:
         diff = floor((arr[i] - min_ele) / rnge)
         
+        #Se o bucket estiver na lista temp, adicionamos o elemento em seu respectivo bucket:
         if(diff == len(temp)):
             temp.append([arr[i]])
- 
+
+        #Caso o bucket não esteja na lista temp, criamos um novo bucket e colocamos o elemento:
         else:
             temp[diff].append(arr[i])
 
@@ -182,12 +200,25 @@ def bucketSort(arr, n_buckets):
 
 ???
 
+A próxima etapa, depois de organizar os elementos nos respectivos buckets, é ordená-los dentro de cada bucket com um algoritmo de ordenação.
+
+??? Atividade
+Considerando o que você aprendeu sobre os algoritmos de ordenação dados em aula, qual seria o mais eficiente para esse caso?
+
+**Dica:** pense no tamanho do vetor!
+
+::: Gabarito
+
+Como a função do bucket sort seja dividido em vários vetores pequenos, faz sentido buscar um algoritmo de ordenção que possua melhor complexidade para vetores menores.Se considerarmos o tempo na prática,o melhor algoritmo de ordenação para ser usado seria o **Insertion Sort**.
+:::
+???
+
 ??? Atividade
 
-Agora vamos para o quinto trecho. Tente implementar em **Python** e adicione ao código do item anterior a lógica abaixo:
+Sabendo da resposta do item anterior, tente implementar em **Python** e adicione ao código do item anterior a lógica abaixo:
 
 ``` py
-	Ordenar cada bucket individualmente utilizando Insertion Sort.
+	Ordenar cada bucket individualmente utilizando um algoritmo de ordenação.
 ```
 
 ::: Gabarito
@@ -214,15 +245,17 @@ def bucketSort(arr, n_buckets):
 
     for i in range(len(temp)):
         if len(temp[i]) != 0:
-            temp[i].sort()
+            insertion_sort(temp[i],len(temp[i]))
 ```
 :::
 
 ???
 
+Para finalizar, precisamos juntar todos os buckets em um único vetor.
+
 ??? Atividade
 
-Agora vamos para o último trecho. Tente implementar em **Python** e adicione ao código do item anterior a lógica abaixo:
+Tente implementar em **Python** e adicione ao código do item anterior a lógica abaixo:
 
 ``` py
 	Juntar todos os buckets ordenados em um único vetor.
